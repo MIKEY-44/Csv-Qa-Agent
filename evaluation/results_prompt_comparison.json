@@ -1,0 +1,108 @@
+{
+  "experiment": "prompt_comparison",
+  "date": "2026-07-12T01:21:18.876114",
+  "questions_tested": 5,
+  "zero_shot": {
+    "avg_latency": 0.008,
+    "avg_tokens": 112.0,
+    "results": [
+      {
+        "strategy": "zero-shot",
+        "question": "What is the total revenue?",
+        "answer": "Total revenue: $275,743.18",
+        "latency": 0.016,
+        "confidence": 85.0,
+        "mode": "rule",
+        "tokens_estimated": 110
+      },
+      {
+        "strategy": "zero-shot",
+        "question": "Which region had the highest revenue?",
+        "answer": "North has the highest revenue at $81,948.31",
+        "latency": 0.004,
+        "confidence": 85.0,
+        "mode": "rule",
+        "tokens_estimated": 112
+      },
+      {
+        "strategy": "zero-shot",
+        "question": "What is the average revenue by customer segment?",
+        "answer": "Average revenue by customer_segment: Enterprise=$6066.56, SMB=$5005.61",
+        "latency": 0.004,
+        "confidence": 85.0,
+        "mode": "rule",
+        "tokens_estimated": 116
+      },
+      {
+        "strategy": "zero-shot",
+        "question": "What is the month over month growth?",
+        "answer": "Month-over-month growth: 2024-02=89.9%, 2024-03=-42.7%",
+        "latency": 0.007,
+        "confidence": 85.0,
+        "mode": "rule",
+        "tokens_estimated": 114
+      },
+      {
+        "strategy": "zero-shot",
+        "question": "Compare Enterprise vs SMB sales",
+        "answer": "Revenue breakdown by region and customer segment",
+        "latency": 0.009,
+        "confidence": 85.0,
+        "mode": "rule",
+        "tokens_estimated": 110
+      }
+    ]
+  },
+  "few_shot": {
+    "avg_latency": 0.004,
+    "avg_tokens": 312.0,
+    "results": [
+      {
+        "strategy": "few-shot",
+        "question": "What is the total revenue?",
+        "answer": "Total revenue: $275,743.18",
+        "latency": 0.003,
+        "confidence": 85.0,
+        "mode": "rule",
+        "tokens_estimated": 310
+      },
+      {
+        "strategy": "few-shot",
+        "question": "Which region had the highest revenue?",
+        "answer": "North has the highest revenue at $81,948.31",
+        "latency": 0.004,
+        "confidence": 85.0,
+        "mode": "rule",
+        "tokens_estimated": 312
+      },
+      {
+        "strategy": "few-shot",
+        "question": "What is the average revenue by customer segment?",
+        "answer": "Average revenue by customer_segment: Enterprise=$6066.56, SMB=$5005.61",
+        "latency": 0.003,
+        "confidence": 85.0,
+        "mode": "rule",
+        "tokens_estimated": 316
+      },
+      {
+        "strategy": "few-shot",
+        "question": "What is the month over month growth?",
+        "answer": "Month-over-month growth: 2024-02=89.9%, 2024-03=-42.7%",
+        "latency": 0.006,
+        "confidence": 85.0,
+        "mode": "rule",
+        "tokens_estimated": 314
+      },
+      {
+        "strategy": "few-shot",
+        "question": "Compare Enterprise vs SMB sales",
+        "answer": "Revenue breakdown by region and customer segment",
+        "latency": 0.006,
+        "confidence": 85.0,
+        "mode": "rule",
+        "tokens_estimated": 310
+      }
+    ]
+  },
+  "conclusion": "Few-shot provides better accuracy-cost tradeoff for complex queries"
+}

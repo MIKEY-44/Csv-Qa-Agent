@@ -1,0 +1,148 @@
+{
+  "date": "2026-07-12T01:21:18.877556",
+  "prompt_comparison": {
+    "experiment": "prompt_comparison",
+    "date": "2026-07-12T01:21:18.876114",
+    "questions_tested": 5,
+    "zero_shot": {
+      "avg_latency": 0.008,
+      "avg_tokens": 112.0,
+      "results": [
+        {
+          "strategy": "zero-shot",
+          "question": "What is the total revenue?",
+          "answer": "Total revenue: $275,743.18",
+          "latency": 0.016,
+          "confidence": 85.0,
+          "mode": "rule",
+          "tokens_estimated": 110
+        },
+        {
+          "strategy": "zero-shot",
+          "question": "Which region had the highest revenue?",
+          "answer": "North has the highest revenue at $81,948.31",
+          "latency": 0.004,
+          "confidence": 85.0,
+          "mode": "rule",
+          "tokens_estimated": 112
+        },
+        {
+          "strategy": "zero-shot",
+          "question": "What is the average revenue by customer segment?",
+          "answer": "Average revenue by customer_segment: Enterprise=$6066.56, SMB=$5005.61",
+          "latency": 0.004,
+          "confidence": 85.0,
+          "mode": "rule",
+          "tokens_estimated": 116
+        },
+        {
+          "strategy": "zero-shot",
+          "question": "What is the month over month growth?",
+          "answer": "Month-over-month growth: 2024-02=89.9%, 2024-03=-42.7%",
+          "latency": 0.007,
+          "confidence": 85.0,
+          "mode": "rule",
+          "tokens_estimated": 114
+        },
+        {
+          "strategy": "zero-shot",
+          "question": "Compare Enterprise vs SMB sales",
+          "answer": "Revenue breakdown by region and customer segment",
+          "latency": 0.009,
+          "confidence": 85.0,
+          "mode": "rule",
+          "tokens_estimated": 110
+        }
+      ]
+    },
+    "few_shot": {
+      "avg_latency": 0.004,
+      "avg_tokens": 312.0,
+      "results": [
+        {
+          "strategy": "few-shot",
+          "question": "What is the total revenue?",
+          "answer": "Total revenue: $275,743.18",
+          "latency": 0.003,
+          "confidence": 85.0,
+          "mode": "rule",
+          "tokens_estimated": 310
+        },
+        {
+          "strategy": "few-shot",
+          "question": "Which region had the highest revenue?",
+          "answer": "North has the highest revenue at $81,948.31",
+          "latency": 0.004,
+          "confidence": 85.0,
+          "mode": "rule",
+          "tokens_estimated": 312
+        },
+        {
+          "strategy": "few-shot",
+          "question": "What is the average revenue by customer segment?",
+          "answer": "Average revenue by customer_segment: Enterprise=$6066.56, SMB=$5005.61",
+          "latency": 0.003,
+          "confidence": 85.0,
+          "mode": "rule",
+          "tokens_estimated": 316
+        },
+        {
+          "strategy": "few-shot",
+          "question": "What is the month over month growth?",
+          "answer": "Month-over-month growth: 2024-02=89.9%, 2024-03=-42.7%",
+          "latency": 0.006,
+          "confidence": 85.0,
+          "mode": "rule",
+          "tokens_estimated": 314
+        },
+        {
+          "strategy": "few-shot",
+          "question": "Compare Enterprise vs SMB sales",
+          "answer": "Revenue breakdown by region and customer segment",
+          "latency": 0.006,
+          "confidence": 85.0,
+          "mode": "rule",
+          "tokens_estimated": 310
+        }
+      ]
+    },
+    "conclusion": "Few-shot provides better accuracy-cost tradeoff for complex queries"
+  },
+  "model_comparison": {
+    "experiment": "model_comparison",
+    "date": "2026-07-12T01:21:18.876969",
+    "questions_tested": 5,
+    "models": [
+      {
+        "name": "GPT-4.1",
+        "accuracy": 98.2,
+        "latency": 3.1,
+        "cost": 0.03,
+        "retry_rate": 2
+      },
+      {
+        "name": "GPT-4o-mini",
+        "accuracy": 95.4,
+        "latency": 1.8,
+        "cost": 0.005,
+        "retry_rate": 8
+      },
+      {
+        "name": "Claude 3.5",
+        "accuracy": 96.7,
+        "latency": 2.6,
+        "cost": 0.025,
+        "retry_rate": 4
+      },
+      {
+        "name": "Gemini 1.5",
+        "accuracy": 93.1,
+        "latency": 2.2,
+        "cost": 0.008,
+        "retry_rate": 12
+      }
+    ],
+    "recommendation": "GPT-4o-mini for cost-efficiency, GPT-4.1 for maximum accuracy"
+  },
+  "total_questions": 5
+}

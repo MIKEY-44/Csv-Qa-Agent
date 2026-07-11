@@ -1,0 +1,18 @@
+FIX: module 'signal' has no attribute 'SIGALRM'
+==========================================
+
+Problem: The openai library or some timeout mechanism uses signal.SIGALRM 
+which is Unix-only and doesn't exist on Windows.
+
+Solution in app.py:
+1. Replaced signal-based timeouts with threading.Thread.join(timeout=...)
+2. The SecureSandbox class uses daemon threads with join(timeout) instead of signal.alarm
+3. Added os.environ['OPENAI_TIMEOUT'] = '30' before importing OpenAI
+
+To run:
+    pip install -r requirements.txt
+    python app.py
+    # Open http://localhost:8000
+
+Upload endpoint: POST /upload (multipart/form-data, field name: "file")
+Ask endpoint:    POST /ask (JSON: {"session_id": "...", "question": "..."})

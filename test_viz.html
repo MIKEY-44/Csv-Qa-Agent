@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Viz Test</title>
+<style>
+body { font-family: sans-serif; padding: 40px; background: #fafafa; }
+.card { background: #fff; border: 1px solid #e8e8e8; border-radius: 4px; padding: 28px; max-width: 600px; }
+.response-card { display: none; margin-top: 24px; }
+.response-card.visible { display: block; }
+.data-table-wrap { overflow-x: auto; border: 1px solid #e8e8e8; border-radius: 4px; margin-top: 20px; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.data-table th { text-align: left; padding: 12px 16px; font-size: 0.7rem; color: #888; border-bottom: 1px solid #e8e8e8; background: #fafafa; text-transform: uppercase; letter-spacing: 0.05em; }
+.data-table td { padding: 12px 16px; border-bottom: 1px solid #e8e8e8; color: #555; }
+.data-table tr:last-child td { border-bottom: none; }
+</style>
+</head>
+<body>
+<div class="card">
+  <button onclick="simulateResponse()">Simulate Response</button>
+  <div class="response-card" id="responseCard">
+    <div id="answer">Revenue breakdown by region and customer segment</div>
+    <div id="vizContainer"></div>
+  </div>
+</div>
+
+<script>
+function simulateResponse() {
+  const card = document.getElementById('responseCard');
+  const container = document.getElementById('vizContainer');
+  card.classList.add('visible');
+  container.innerHTML = '';
+
+  const data = {
+    "Enterprise": { "East": 34699.17, "North": 59299.15, "South": 26499.33, "West": 25099.73 },
+    "SMB": { "East": 36699.03, "North": 22649.16, "South": 32799.08, "West": 37998.53 }
+  };
+
+  const isNested = Object.values(data).some(v => typeof v === 'object' && v !== null && !Array.isArray(v));
+  console.log('isNested:', isNested);
+
+  const table = document.createElement('table');
+  table.className = 'data-table';
+
+  const rows = Object.keys(data);
+  const cols = [...new Set(Object.values(data).flatMap(v => Object.keys(v)))];
+
+  let h = '<thead><tr><th></th>';
+  cols.forEach(c => h += '<th>' + c + '</th>');
+  h += '</tr></thead><tbody>';
+
+  rows.forEach(row => {
+    h += '<tr><td><strong>' + row + '</strong></td>';
+    cols.forEach(col => {
+      const val = data[row][col];
+      h += '<td>' + (val !== undefined ? val.toFixed(2) : '—') + '</td>';
+    });
+    h += '</tr>';
+  });
+  h += '</tbody>';
+  table.innerHTML = h;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'data-table-wrap';
+  wrap.appendChild(table);
+  container.appendChild(wrap);
+
+  console.log('Table rendered, container children:', container.children.length);
+}
+</script>
+</body>
+</html>

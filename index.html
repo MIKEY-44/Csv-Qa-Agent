@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSV QA Agent</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;background:#111;color:#eee;min-height:100vh;-webkit-font-smoothing:antialiased}
+.container{max-width:720px;margin:0 auto;padding:24px}
+
+/* Upload Section */
+.upload-section{padding:40px 0;text-align:center}
+.upload-card{background:#1a1a1a;border:1.5px dashed #333;border-radius:16px;padding:60px 40px;cursor:pointer;transition:all 0.2s}
+.upload-card:hover{border-color:#555;background:#1f1f1f}
+.upload-card h2{font-size:1.3rem;font-weight:400;color:#fff;margin-bottom:8px}
+.upload-card p{color:#666;font-size:0.9rem}
+
+/* Chat Section */
+.chat-section{display:none}
+
+/* Input Box */
+.input-box{background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:20px;margin-bottom:16px}
+.input-box textarea{width:100%;background:transparent;border:none;color:#fff;font-size:1.1rem;font-family:inherit;resize:vertical;min-height:60px;outline:none}
+.input-box .actions{display:flex;justify-content:flex-end;gap:10px;margin-top:12px}
+.input-box .actions button{padding:8px 20px;border-radius:20px;border:none;font-size:0.85rem;cursor:pointer;font-family:inherit}
+.btn-clear{background:transparent;color:#888;border:1px solid #333}
+.btn-clear:hover{color:#fff;border-color:#555}
+.btn-ask{background:#fff;color:#111;font-weight:600}
+.btn-ask:hover{background:#eee}
+.btn-ask:disabled{opacity:0.4;cursor:not-allowed}
+
+/* Suggestions */
+.suggestions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.suggestion-pill{padding:8px 16px;background:#1a1a1a;border:1px solid #333;border-radius:20px;color:#aaa;font-size:0.85rem;cursor:pointer;transition:0.15s}
+.suggestion-pill:hover{background:#252525;color:#fff;border-color:#444}
+
+/* Response Card */
+.response-card{background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:28px;margin-top:16px;animation:fadeIn 0.4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.response-answer{font-size:1.15rem;line-height:1.6;color:#fff;margin-bottom:20px}
+
+/* Big Number Viz */
+.viz-number{background:#0a0a0a;border:1px solid #222;border-radius:8px;padding:40px;text-align:center;margin:20px 0}
+.viz-number .value{font-size:3.5rem;font-weight:600;color:#fff;letter-spacing:-0.02em}
+.viz-number .label{font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:0.15em;margin-top:8px}
+
+/* Bar Chart Viz */
+.viz-bar{margin:20px 0}
+.bar-item{display:flex;align-items:center;margin-bottom:10px}
+.bar-label{width:100px;font-size:0.85rem;color:#aaa;flex-shrink:0}
+.bar-track{flex:1;height:28px;background:#222;border-radius:4px;overflow:hidden;margin:0 12px}
+.bar-fill{height:100%;background:#fff;border-radius:4px;transition:width 0.6s ease}
+.bar-value{font-size:0.85rem;color:#fff;min-width:80px;text-align:right}
+
+/* Table Viz */
+.viz-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:0.85rem}
+.viz-table th{text-align:left;padding:12px 16px;color:#888;font-weight:500;border-bottom:1px solid #333;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em}
+.viz-table td{padding:12px 16px;border-bottom:1px solid #222;color:#ddd}
+.viz-table tr:last-child td{border-bottom:none}
+
+/* Line Chart Viz */
+.viz-line{margin:20px 0;padding:20px;background:#0a0a0a;border:1px solid #222;border-radius:8px}
+.line-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #1a1a1a}
+.line-item:last-child{border-bottom:none}
+.line-label{color:#aaa;font-size:0.9rem}
+.line-value{color:#fff;font-size:0.9rem;font-weight:500}
+
+/* Meta */
+.response-meta{display:flex;align-items:center;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid #333}
+.badge-mode{padding:4px 12px;border-radius:12px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em}
+.badge-rule{background:#1a3a2a;color:#4ade80}
+.badge-llm{background:#1a2a4a;color:#60a5fa}
+.badge-error{background:#3a1a1a;color:#f87171}
+.latency{color:#666;font-size:0.75rem}
+
+/* Trace - NO inline onclick, uses event delegation */
+.trace-toggle{color:#666;font-size:0.75rem;cursor:pointer;margin-top:8px}
+.trace-toggle:hover{color:#888}
+.trace-box{display:none;margin-top:8px;padding:12px;background:#0a0a0a;border-radius:6px;font-size:0.75rem;color:#888;line-height:1.6;font-family:monospace}
+.trace-box.visible{display:block}
+
+/* Spinner */
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid #333;border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Error */
+.error-text{color:#f87171;font-size:1rem}
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- Upload -->
+  <div class="upload-section" id="uploadSection">
+    <div class="upload-card" onclick="document.getElementById('fileInput').click()">
+      <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleUpload(event)">
+      <h2>Upload your CSV or Excel file</h2>
+      <p>Drop a file or click to browse</p>
+    </div>
+  </div>
+
+  <!-- Chat -->
+  <div class="chat-section" id="chatSection">
+    <div class="input-box">
+      <textarea id="questionInput" placeholder="What is the total revenue?" rows="2"></textarea>
+      <div class="actions">
+        <button class="btn-clear" onclick="clearInput()">CLEAR</button>
+        <button class="btn-ask" id="askBtn" onclick="handleAsk()">ASK</button>
+      </div>
+    </div>
+
+    <div class="suggestions">
+      <span class="suggestion-pill" onclick="setQuestion('What is the total revenue?')">Total revenue</span>
+      <span class="suggestion-pill" onclick="setQuestion('Which region had the highest revenue?')">Top region</span>
+      <span class="suggestion-pill" onclick="setQuestion('What is the average revenue by segment?')">Avg by segment</span>
+      <span class="suggestion-pill" onclick="setQuestion('Which product made the most revenue?')">Top product</span>
+      <span class="suggestion-pill" onclick="setQuestion('What is the month over month growth?')">MoM growth</span>
+      <span class="suggestion-pill" onclick="setQuestion('Compare Enterprise vs SMB')">Compare</span>
+    </div>
+
+    <div id="responseArea"></div>
+  </div>
+</div>
+
+<script>
+let sessionId = null;
+let isLoading = false;
+
+function setQuestion(q) {
+  document.getElementById('questionInput').value = q;
+  document.getElementById('questionInput').focus();
+}
+
+function clearInput() {
+  document.getElementById('questionInput').value = '';
+}
+
+async function handleUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const form = new FormData();
+  form.append('file', file);
+
+  const card = document.querySelector('.upload-card');
+  card.innerHTML = '<div class="spinner" style="margin:0 auto 12px;display:block"></div><p style="color:#888">Processing...</p>';
+
+  try {
+    const res = await fetch('/upload', { method: 'POST', body: form });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || data.error || 'Upload failed: ' + res.status);
+    if (!data.session_id) throw new Error('Upload failed - no session ID');
+
+    sessionId = data.session_id;
+    document.getElementById('uploadSection').style.display = 'none';
+    document.getElementById('chatSection').style.display = 'block';
+  } catch (err) {
+    console.error('Upload error:', err);
+    card.innerHTML = '<h2 style="color:#f87171">Upload Failed</h2><p style="color:#888">' + err.message + '</p>';
+  }
+}
+
+async function handleAsk() {
+  const input = document.getElementById('questionInput');
+  const question = input.value.trim();
+  if (!question || isLoading) return;
+
+  isLoading = true;
+  document.getElementById('askBtn').disabled = true;
+
+  const area = document.getElementById('responseArea');
+  area.innerHTML = '<div class="response-card"><div class="spinner"></div></div>';
+
+  try {
+    const res = await fetch('/api/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'question=' + encodeURIComponent(question)
+    });
+    const data = await res.json();
+    renderResponse(data);
+  } catch (err) {
+    console.error('Ask error:', err);
+    area.innerHTML = '<div class="response-card"><p class="error-text">Error: ' + esc(err.message) + '</p></div>';
+  } finally {
+    isLoading = false;
+    document.getElementById('askBtn').disabled = false;
+  }
+}
+
+function renderResponse(data) {
+  const area = document.getElementById('responseArea');
+  if (!data || !data.success) {
+    area.innerHTML = '<div class="response-card"><p class="error-text">' + esc((data && data.error) ? data.error : 'Unknown error') + '</p><span class="badge-mode badge-error">Error</span></div>';
+    return;
+  }
+
+  let vizHtml = '';
+  const d = data.data;
+  const vtype = data.viz_type || '';
+
+  if (vtype === 'number' && d && typeof d === 'object' && d.total !== undefined) {
+    vizHtml = '<div class="viz-number"><div class="value">' + fmtNum(d.total) + '</div><div class="label">Total</div></div>';
+  } else if (vtype === 'bar' && d && typeof d === 'object') {
+    const entries = Object.entries(d).sort((a,b) => b[1] - a[1]);
+    const max = Math.max(...entries.map(e => e[1]));
+    vizHtml = '<div class="viz-bar">' + entries.map(([k,v]) => {
+      const pct = (v / max * 100).toFixed(1);
+      return '<div class="bar-item"><div class="bar-label">' + esc(k) + '</div><div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div><div class="bar-value">' + fmtNum(v) + '</div></div>';
+    }).join('') + '</div>';
+  } else if (vtype === 'table' && d && typeof d === 'object') {
+    const keys = Object.keys(d);
+    const isNested = keys.length > 0 && typeof d[keys[0]] === 'object' && d[keys[0]] !== null && !Array.isArray(d[keys[0]]);
+    if (isNested) {
+      const cols = [...new Set(Object.values(d).flatMap(v => Object.keys(v)))];
+      vizHtml = '<table class="viz-table"><thead><tr><th></th>' + cols.map(c => '<th>' + esc(c) + '</th>').join('') + '</tr></thead><tbody>' +
+        keys.map(k => '<tr><td><strong>' + esc(k) + '</strong></td>' + cols.map(c => '<td>' + fmtNum(d[k][c]) + '</td>').join('') + '</tr>').join('') +
+        '</tbody></table>';
+    } else {
+      vizHtml = '<table class="viz-table"><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody>' +
+        keys.map(k => '<tr><td>' + esc(k) + '</td><td>' + fmtNum(d[k]) + '</td></tr>').join('') +
+        '</tbody></table>';
+    }
+  } else if (vtype === 'line' && d && typeof d === 'object') {
+    vizHtml = '<div class="viz-line">' + Object.entries(d).map(([k,v]) => {
+      return '<div class="line-item"><span class="line-label">' + esc(k) + '</span><span class="line-value">' + (typeof v === 'number' ? v.toFixed(1) + '%' : esc(String(v))) + '</span></div>';
+    }).join('') + '</div>';
+  }
+
+  const modeClass = data.mode === 'llm' ? 'badge-llm' : 'badge-rule';
+  const modeText = data.mode === 'llm' ? 'LLM' : 'RULE';
+  const latency = data.latency_ms ? data.latency_ms.toFixed(2) + 'MS' : '';
+
+  // NO inline onclick - uses event delegation via data-trace-toggle attribute
+  const traceHtml = data.trace && data.trace.length ? '<div class="trace-toggle" data-trace-toggle="1">View trace</div><div class="trace-box">' + esc(data.trace.join('\n')) + '</div>' : '';
+
+  area.innerHTML = '<div class="response-card">' +
+    '<div class="response-answer">' + esc(data.answer) + '</div>' +
+    vizHtml +
+    '<div class="response-meta">' +
+      '<span class="badge-mode ' + modeClass + '">' + modeText + '</span>' +
+      '<span class="latency">' + latency + '</span>' +
+    '</div>' +
+    traceHtml +
+  '</div>';
+
+  // Attach click handlers to trace toggles via event delegation
+  area.querySelectorAll('[data-trace-toggle]').forEach(el => {
+    el.addEventListener('click', function() {
+      this.nextElementSibling.classList.toggle('visible');
+    });
+  });
+}
+
+function fmtNum(n) {
+  if (typeof n !== 'number') return esc(String(n));
+  if (n >= 1000) return n.toLocaleString('en-US', {maximumFractionDigits: 2});
+  return n.toFixed(2);
+}
+
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Enter key to submit
+document.getElementById('questionInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    handleAsk();
+  }
+});
+</script>
+</body>
+</html>

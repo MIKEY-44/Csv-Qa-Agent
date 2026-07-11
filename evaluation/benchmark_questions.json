@@ -1,0 +1,842 @@
+[
+  {
+    "question": "What is the total revenue?",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the sum of all units sold?",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Calculate the total unit_price across all orders",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the combined revenue for all regions?",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Sum the units for each product category",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the overall sales total?",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Calculate total revenue by region",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the grand total of all sales?",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Sum all unit prices for Enterprise customers",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Total revenue for North region",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the sum of units sold in Q1 2024?",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Calculate total sales for SMB segment",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Combined revenue for Epsilon AI and Gamma Cloud",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Total units sold by each sales rep",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the aggregate revenue?",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Sum of all order values",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Total business volume",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Cumulative revenue across all months",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the full revenue amount?",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Calculate the complete sales total",
+    "expected_answer_contains": "",
+    "category": "aggregation",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which region had the highest revenue?",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the top selling product?",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which sales rep made the most sales?",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What product category generated the most revenue?",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which customer segment has the highest average order?",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the best performing region?",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which product sold the most units?",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Who is the top sales rep?",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the highest revenue month?",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which region performed best?",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Top product by revenue",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Highest selling item",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which category is most profitable?",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Best performing sales representative",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Top customer segment by revenue",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which product has the highest unit price?",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Most successful region",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Top revenue generator",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Best selling product category",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Highest value order",
+    "expected_answer_contains": "",
+    "category": "top",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the average revenue by customer segment?",
+    "expected_answer_contains": "",
+    "category": "average",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Average units sold per order",
+    "expected_answer_contains": "",
+    "category": "average",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Mean unit price by region",
+    "expected_answer_contains": "",
+    "category": "average",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the average order value?",
+    "expected_answer_contains": "",
+    "category": "average",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Average revenue per product",
+    "expected_answer_contains": "",
+    "category": "average",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Mean sales by region",
+    "expected_answer_contains": "",
+    "category": "average",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Average units per product category",
+    "expected_answer_contains": "",
+    "category": "average",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the typical order size?",
+    "expected_answer_contains": "",
+    "category": "average",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Average revenue for Enterprise vs SMB",
+    "expected_answer_contains": "",
+    "category": "average",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Mean unit price across all products",
+    "expected_answer_contains": "",
+    "category": "average",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Average monthly revenue",
+    "expected_answer_contains": "",
+    "category": "average",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Typical sales rep performance",
+    "expected_answer_contains": "",
+    "category": "average",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Average order by region",
+    "expected_answer_contains": "",
+    "category": "average",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Mean revenue per customer segment",
+    "expected_answer_contains": "",
+    "category": "average",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the average sale amount?",
+    "expected_answer_contains": "",
+    "category": "average",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Compare Enterprise vs SMB sales",
+    "expected_answer_contains": "",
+    "category": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "question": "How does North compare to South in revenue?",
+    "expected_answer_contains": "",
+    "category": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Compare product performance across regions",
+    "expected_answer_contains": "",
+    "category": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Enterprise vs SMB revenue breakdown",
+    "expected_answer_contains": "",
+    "category": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Compare sales rep performance",
+    "expected_answer_contains": "",
+    "category": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "question": "North vs East revenue comparison",
+    "expected_answer_contains": "",
+    "category": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Compare monthly sales trends",
+    "expected_answer_contains": "",
+    "category": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Product category comparison",
+    "expected_answer_contains": "",
+    "category": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Compare customer segments by region",
+    "expected_answer_contains": "",
+    "category": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Revenue comparison: Alpha Pro vs Beta Suite",
+    "expected_answer_contains": "",
+    "category": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "question": "How do regions compare in unit sales?",
+    "expected_answer_contains": "",
+    "category": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Compare average order values",
+    "expected_answer_contains": "",
+    "category": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Side by side: Enterprise and SMB",
+    "expected_answer_contains": "",
+    "category": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Regional performance comparison",
+    "expected_answer_contains": "",
+    "category": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Compare Q1 vs Q2 sales",
+    "expected_answer_contains": "",
+    "category": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the month over month growth?",
+    "expected_answer_contains": "",
+    "category": "growth",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Show revenue trends over time",
+    "expected_answer_contains": "",
+    "category": "growth",
+    "difficulty": "medium"
+  },
+  {
+    "question": "How did sales grow from Jan to Mar?",
+    "expected_answer_contains": "",
+    "category": "growth",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Monthly revenue growth rate",
+    "expected_answer_contains": "",
+    "category": "growth",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Sales trend analysis",
+    "expected_answer_contains": "",
+    "category": "growth",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Revenue progression over months",
+    "expected_answer_contains": "",
+    "category": "growth",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Growth pattern by month",
+    "expected_answer_contains": "",
+    "category": "growth",
+    "difficulty": "medium"
+  },
+  {
+    "question": "How are sales trending?",
+    "expected_answer_contains": "",
+    "category": "growth",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Month-to-month sales change",
+    "expected_answer_contains": "",
+    "category": "growth",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Revenue growth trajectory",
+    "expected_answer_contains": "",
+    "category": "growth",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Time series of sales",
+    "expected_answer_contains": "",
+    "category": "growth",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Sales momentum over time",
+    "expected_answer_contains": "",
+    "category": "growth",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Monthly performance trend",
+    "expected_answer_contains": "",
+    "category": "growth",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Growth rate by period",
+    "expected_answer_contains": "",
+    "category": "growth",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Revenue trend direction",
+    "expected_answer_contains": "",
+    "category": "growth",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the correlation between units and unit price?",
+    "expected_answer_contains": "",
+    "category": "correlation",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Do units sold correlate with price?",
+    "expected_answer_contains": "",
+    "category": "correlation",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Correlation analysis: price vs volume",
+    "expected_answer_contains": "",
+    "category": "correlation",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Relationship between units and revenue",
+    "expected_answer_contains": "",
+    "category": "correlation",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Price-volume correlation",
+    "expected_answer_contains": "",
+    "category": "correlation",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Are unit sales and price related?",
+    "expected_answer_contains": "",
+    "category": "correlation",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Correlation coefficient for sales data",
+    "expected_answer_contains": "",
+    "category": "correlation",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Statistical relationship: units vs price",
+    "expected_answer_contains": "",
+    "category": "correlation",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Do higher prices mean fewer sales?",
+    "expected_answer_contains": "",
+    "category": "correlation",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Correlation between order size and value",
+    "expected_answer_contains": "",
+    "category": "correlation",
+    "difficulty": "hard"
+  },
+  {
+    "question": "How many unique products are there?",
+    "expected_answer_contains": "",
+    "category": "count",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Count of distinct sales reps",
+    "expected_answer_contains": "",
+    "category": "count",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Number of unique customer segments",
+    "expected_answer_contains": "",
+    "category": "count",
+    "difficulty": "easy"
+  },
+  {
+    "question": "How many regions in the dataset?",
+    "expected_answer_contains": "",
+    "category": "count",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Count of product categories",
+    "expected_answer_contains": "",
+    "category": "count",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Unique order count",
+    "expected_answer_contains": "",
+    "category": "count",
+    "difficulty": "easy"
+  },
+  {
+    "question": "How many different products sold?",
+    "expected_answer_contains": "",
+    "category": "count",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Distinct regions represented",
+    "expected_answer_contains": "",
+    "category": "count",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Number of sales representatives",
+    "expected_answer_contains": "",
+    "category": "count",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Count unique values in each column",
+    "expected_answer_contains": "",
+    "category": "count",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What if we filter for only Enterprise customers in North region?",
+    "expected_answer_contains": "",
+    "category": "edge_case",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Show revenue for orders above $1000",
+    "expected_answer_contains": "",
+    "category": "edge_case",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which product has the highest revenue per unit?",
+    "expected_answer_contains": "",
+    "category": "edge_case",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Average revenue per sales rep by region",
+    "expected_answer_contains": "",
+    "category": "edge_case",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Revenue distribution across segments",
+    "expected_answer_contains": "",
+    "category": "edge_case",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Top 3 products by revenue",
+    "expected_answer_contains": "",
+    "category": "edge_case",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Bottom performing region",
+    "expected_answer_contains": "",
+    "category": "edge_case",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Sales variance by month",
+    "expected_answer_contains": "",
+    "category": "edge_case",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Revenue concentration: what % comes from top product?",
+    "expected_answer_contains": "",
+    "category": "edge_case",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Median revenue by customer segment",
+    "expected_answer_contains": "",
+    "category": "edge_case",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Standard deviation of unit prices",
+    "expected_answer_contains": "",
+    "category": "edge_case",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Revenue per unit sold by product",
+    "expected_answer_contains": "",
+    "category": "edge_case",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which month had the most orders?",
+    "expected_answer_contains": "",
+    "category": "edge_case",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Sales efficiency: revenue per order",
+    "expected_answer_contains": "",
+    "category": "edge_case",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Cumulative revenue by date",
+    "expected_answer_contains": "",
+    "category": "edge_case",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What can you tell me about this dataset?",
+    "expected_answer_contains": "",
+    "category": "general",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Give me an overview of the sales data",
+    "expected_answer_contains": "",
+    "category": "general",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What insights can you provide?",
+    "expected_answer_contains": "",
+    "category": "general",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Summarize the key metrics",
+    "expected_answer_contains": "",
+    "category": "general",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What are the main findings?",
+    "expected_answer_contains": "",
+    "category": "general",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Describe the dataset",
+    "expected_answer_contains": "",
+    "category": "general",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What patterns do you see?",
+    "expected_answer_contains": "",
+    "category": "general",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Key statistics please",
+    "expected_answer_contains": "",
+    "category": "general",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Data summary",
+    "expected_answer_contains": "",
+    "category": "general",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What should I know about this data?",
+    "expected_answer_contains": "",
+    "category": "general",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which region has the highest average revenue per order?",
+    "expected_answer_contains": "",
+    "category": "multi_step",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What is the revenue share of each product within Enterprise segment?",
+    "expected_answer_contains": "",
+    "category": "multi_step",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which sales rep is most efficient (revenue per unit)?",
+    "expected_answer_contains": "",
+    "category": "multi_step",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Compare growth rates between Enterprise and SMB",
+    "expected_answer_contains": "",
+    "category": "multi_step",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What product performs best in each region?",
+    "expected_answer_contains": "",
+    "category": "multi_step",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Revenue per customer segment over time",
+    "expected_answer_contains": "",
+    "category": "multi_step",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which month had the highest growth for SMB?",
+    "expected_answer_contains": "",
+    "category": "multi_step",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Top product by region with revenue breakdown",
+    "expected_answer_contains": "",
+    "category": "multi_step",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Average order value trend by segment",
+    "expected_answer_contains": "",
+    "category": "multi_step",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Revenue concentration by rep and region",
+    "expected_answer_contains": "",
+    "category": "multi_step",
+    "difficulty": "hard"
+  }
+]

@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+memory/*.db
+evaluation/results.csv
+evaluation/metrics.json
+*.png
+*.jpg
+
+
+# Secrets
+.env
+config/secrets.yaml

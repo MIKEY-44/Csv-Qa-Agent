@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSV AI Agent</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg: #fafafa;
+  --bg-card: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #666666;
+  --text-muted: #888888;
+  --border: #e8e8e8;
+  --border-light: #f0f0f0;
+  --accent: #1a1a1a;
+  --accent-light: #333333;
+  --badge-bg: #f0f0f0;
+  --badge-text: #555555;
+  --blob: rgba(0,0,0,0.04);
+  --shadow: rgba(0,0,0,0.04);
+  --input-bg: #ffffff;
+  --chart-grid: rgba(0,0,0,0.06);
+  --footer-text: #aaaaaa;
+}
+
+[data-theme="dark"] {
+  --bg: #0a0a0a;
+  --bg-card: #111111;
+  --text: #eeeeee;
+  --text-secondary: #aaaaaa;
+  --text-muted: #777777;
+  --border: #222222;
+  --border-light: #1a1a1a;
+  --accent: #ffffff;
+  --accent-light: #eeeeee;
+  --badge-bg: #1a1a1a;
+  --badge-text: #888888;
+  --blob: rgba(255,255,255,0.03);
+  --shadow: rgba(0,0,0,0.2);
+  --input-bg: #111111;
+  --chart-grid: rgba(255,255,255,0.06);
+  --footer-text: #555555;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s ease, color 0.3s ease;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Decorative blobs */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  background: var(--blob);
+  pointer-events: none;
+  z-index: 0;
+  transition: background 0.3s ease;
+}
+.blob-1 {
+  width: 400px;
+  height: 400px;
+  top: -100px;
+  right: -100px;
+}
+.blob-2 {
+  width: 300px;
+  height: 300px;
+  bottom: 100px;
+  left: -80px;
+}
+.blob-3 {
+  width: 250px;
+  height: 250px;
+  top: 40%;
+  right: -60px;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+.header {
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.brand {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.8rem;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 420px;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-card);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+}
+.theme-toggle:hover {
+  border-color: var(--text-muted);
+}
+.theme-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 48px;
+}
+
+/* Section Label */
+.section-label {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::before {
+  content: '';
+  width: 2px;
+  height: 20px;
+  background: var(--accent);
+  border-radius: 1px;
+}
+
+/* Upload Section */
+.upload-section {
+  margin-bottom: 32px;
+}
+
+.upload-card {
+  background: var(--bg-card);
+  border: 1.5px dashed var(--border);
+  border-radius: 16px;
+  padding: 60px 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.upload-card:hover {
+  border-color: var(--text-muted);
+  background: var(--input-bg);
+}
+.upload-card.dragover {
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.05);
+}
+.upload-card h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.upload-card p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* File Info */
+.file-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.file-info-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.file-info-left .filename {
+  color: var(--text);
+  font-weight: 500;
+}
+.change-file {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  transition: all 0.15s;
+}
+.change-file:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+/* Input Box */
+.input-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+  transition: border-color 0.2s;
+}
+.input-box:focus-within {
+  border-color: var(--text-muted);
+}
+.input-box textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 60px;
+  outline: none;
+  line-height: 1.5;
+}
+.input-box textarea::placeholder {
+  color: var(--text-muted);
+}
+.input-box .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+.input-box .actions button {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: none;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: all 0.15s;
+}
+.btn-clear {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border) !important;
+}
+.btn-clear:hover {
+  color: var(--text);
+  border-color: var(--text-muted) !important;
+}
+.btn-ask {
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+.btn-ask:hover {
+  opacity: 0.85;
+}
+.btn-ask:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn-ask.thinking {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Suggestions */
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.suggestion-pill {
+  padding: 7px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 400;
+}
+.suggestion-pill:hover {
+  background: var(--input-bg);
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+/* Response Area */
+.response-area {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Response Card */
+.response-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  animation: fadeIn 0.4s ease;
+  transition: background 0.3s, border-color 0.3s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.response-question {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+
+.response-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.response-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.response-answer {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+.response-answer .num {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Normal number font */
+.num {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Viz: Number */
+.viz-number {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 48px 32px;
+  text-align: center;
+  margin: 20px 0;
+}
+.viz-number .value {
+  font-size: 3.2rem;
+  font-weight: 600;
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.viz-number .label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+/* Viz: Chart Container */
+.viz-chart {
+  margin: 20px 0;
+  padding: 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  position: relative;
+  height: 320px;
+}
+
+/* Viz: Table */
+.viz-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin: 20px 0;
+}
+.viz-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.viz-table th {
+  text-align: left;
+  padding: 14px 18px;
+  color: var(--text-muted);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--bg);
+}
+.viz-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.viz-table tr:last-child td {
+  border-bottom: none;
+}
+.viz-table td strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Meta */
+.response-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.badge-mode {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--badge-bg);
+  color: var(--badge-text);
+}
+.latency {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Trace */
+.trace-toggle {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  margin-top: 12px;
+  font-weight: 500;
+}
+.trace-toggle:hover {
+  color: var(--text-secondary);
+}
+.trace-box {
+  display: none;
+  margin-top: 10px;
+  padding: 14px;
+  background: var(--bg);
+  border-radius: 8px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  font-family: 'SF Mono', Monaco, monospace;
+  white-space: pre-wrap;
+  border: 1px solid var(--border);
+}
+.trace-box.visible {
+  display: block;
+}
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Loading Card */
+.loading-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Error */
+.error-text {
+  color: #e74c3c;
+  font-size: 0.95rem;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  color: var(--footer-text);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .container { padding: 32px 16px 60px; }
+  .title { font-size: 2rem; }
+  .blob-1 { width: 250px; height: 250px; }
+  .blob-2 { width: 200px; height: 200px; }
+  .blob-3 { width: 180px; height: 180px; }
+  .viz-number .value { font-size: 2.4rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-variant-numeric: tabular-nums; }
+  .viz-chart { height: 260px; }
+}
+</style>
+<base target="_blank">
+</head>
+<body>
+<!-- Decorative blobs -->
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <div class="brand">CSV AI Agent</div>
+    <h1 class="title">Ask your data<br>anything.</h1>
+    <p class="subtitle">Upload a CSV and ask questions in plain English. Get precise answers with visualizations.</p>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle dark mode">
+      <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    </button>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Upload -->
+  <div class="upload-section" id="uploadSection">
+    <div class="upload-card" id="uploadCard" onclick="document.getElementById('fileInput').click()">
+      <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleUpload(event)">
+      <h2>Upload your CSV or Excel file</h2>
+      <p>Drop a file or click to browse</p>
+    </div>
+  </div>
+
+  <!-- Chat -->
+  <div class="chat-section" id="chatSection" style="display:none">
+    <div class="section-label">Query</div>
+
+    <div class="file-info" id="fileInfo" style="display:none">
+      <div class="file-info-left">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <span class="filename" id="fileName"></span>
+      </div>
+      <button class="change-file" onclick="resetUpload(event)">Change file</button>
+    </div>
+
+    <div class="input-box">
+      <textarea id="questionInput" placeholder="What is the total revenue? Which region had the highest revenue?" rows="2"></textarea>
+      <div class="actions">
+        <button class="btn-clear" onclick="clearInput()">CLEAR</button>
+        <button class="btn-ask" id="askBtn" onclick="handleAsk()">ASK</button>
+      </div>
+    </div>
+
+    <div class="suggestions">
+      <span class="suggestion-pill" onclick="setQuestion('What is the total revenue?')">Total revenue</span>
+      <span class="suggestion-pill" onclick="setQuestion('Which region had the highest revenue?')">Top region</span>
+      <span class="suggestion-pill" onclick="setQuestion('What is the average revenue by segment?')">Avg by segment</span>
+      <span class="suggestion-pill" onclick="setQuestion('Which product made the most revenue?')">Top product</span>
+      <span class="suggestion-pill" onclick="setQuestion('What is the month over month growth?')">MoM growth</span>
+      <span class="suggestion-pill" onclick="setQuestion('Compare Enterprise vs SMB')">Compare</span>
+    </div>
+
+    <div class="response-area" id="responseArea"></div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">CSV AI Agent — Ask your data anything</div>
+</div>
+
+<script>
+let sessionId = null;
+let isLoading = false;
+let chartInstances = [];
+
+// Theme
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    html.removeAttribute('data-theme');
+    document.getElementById('moonIcon').style.display = 'block';
+    document.getElementById('sunIcon').style.display = 'none';
+    localStorage.setItem('theme', 'light');
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    document.getElementById('moonIcon').style.display = 'none';
+    document.getElementById('sunIcon').style.display = 'block';
+    localStorage.setItem('theme', 'dark');
+  }
+}
+
+// Init theme
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+  document.documentElement.setAttribute('data-theme', 'dark');
+  document.getElementById('moonIcon').style.display = 'none';
+  document.getElementById('sunIcon').style.display = 'block';
+}
+
+// Drag and drop
+const uploadCard = document.getElementById('uploadCard');
+['dragenter','dragover','dragleave','drop'].forEach(evt => {
+  uploadCard.addEventListener(evt, (e) => { e.preventDefault(); e.stopPropagation(); }, false);
+});
+['dragenter','dragover'].forEach(evt => {
+  uploadCard.addEventListener(evt, () => uploadCard.classList.add('dragover'), false);
+});
+['dragleave','drop'].forEach(evt => {
+  uploadCard.addEventListener(evt, () => uploadCard.classList.remove('dragover'), false);
+});
+uploadCard.addEventListener('drop', (e) => {
+  const files = e.dataTransfer.files;
+  if (files.length) {
+    document.getElementById('fileInput').files = files;
+    handleUpload({ target: { files: files } });
+  }
+}, false);
+
+function setQuestion(q) {
+  document.getElementById('questionInput').value = q;
+  document.getElementById('questionInput').focus();
+}
+
+function clearInput() {
+  document.getElementById('questionInput').value = '';
+}
+
+function resetUpload(e) {
+  e.stopPropagation();
+  sessionId = null;
+  document.getElementById('uploadSection').style.display = 'block';
+  document.getElementById('chatSection').style.display = 'none';
+  document.getElementById('fileInfo').style.display = 'none';
+  document.getElementById('responseArea').innerHTML = '';
+  document.getElementById('fileInput').value = '';
+  destroyCharts();
+}
+
+function destroyCharts() {
+  chartInstances.forEach(c => c.destroy());
+  chartInstances = [];
+}
+
+async function handleUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const form = new FormData();
+  form.append('file', file);
+
+  const card = document.querySelector('.upload-card');
+  card.innerHTML = '<div class="loading-card"><div class="spinner"></div><span>Processing your file...</span></div>';
+
+  try {
+    const res = await fetch('/upload', { method: 'POST', body: form });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || data.error || 'Upload failed: ' + res.status);
+    if (!data.session_id) throw new Error('Upload failed - no session ID');
+
+    sessionId = data.session_id;
+    document.getElementById('uploadSection').style.display = 'none';
+    document.getElementById('chatSection').style.display = 'block';
+    document.getElementById('fileInfo').style.display = 'flex';
+    document.getElementById('fileName').textContent = file.name;
+  } catch (err) {
+    console.error('Upload error:', err);
+    card.innerHTML = '<h2 style="color:#e74c3c;font-family:Playfair Display,serif">Upload Failed</h2><p style="color:var(--text-muted)">' + esc(err.message) + '</p>';
+  }
+}
+
+async function handleAsk() {
+  const input = document.getElementById('questionInput');
+  const question = input.value.trim();
+  console.log('[handleAsk] question:', question, 'isLoading:', isLoading);
+  if (!question) {
+    input.focus();
+    return;
+  }
+  if (isLoading) {
+    console.log('[handleAsk] blocked - already loading');
+    return;
+  }
+
+  isLoading = true;
+  const askBtn = document.getElementById('askBtn');
+  const area = document.getElementById('responseArea');
+
+  askBtn.disabled = true;
+  askBtn.innerHTML = '<div class="spinner" style="width:12px;height:12px;border-width:1.5px"></div>THINKING...';
+  askBtn.classList.add('thinking');
+
+  // Clear previous responses and show loading
+  area.innerHTML = '';
+  destroyCharts();
+  const loadingId = 'loading-' + Date.now();
+  const loadingCard = document.createElement('div');
+  loadingCard.className = 'response-card';
+  loadingCard.id = loadingId;
+  loadingCard.innerHTML = '<div class="loading-card"><div class="spinner"></div><span>Processing your query...</span></div>';
+  area.appendChild(loadingCard);
+
+  try {
+    loadingCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } catch(e) {}
+
+  try {
+    const bodyParams = new URLSearchParams();
+    bodyParams.append('question', question);
+    if (sessionId) bodyParams.append('session_id', sessionId);
+
+    const res = await fetch('/api/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: bodyParams.toString()
+    });
+
+    if (!res.ok) {
+      throw new Error('Server returned ' + res.status);
+    }
+
+    const data = await res.json();
+
+    // Remove loading card
+    const loadCard = document.getElementById(loadingId);
+    if (loadCard) loadCard.remove();
+
+    renderResponse(data, question);
+
+    // Success - clear input for next question
+    input.value = '';
+    input.focus();
+
+  } catch (err) {
+    console.error('Ask failed:', err);
+
+    const loadCard = document.getElementById(loadingId);
+    if (loadCard) loadCard.remove();
+
+    const errorCard = document.createElement('div');
+    errorCard.className = 'response-card';
+    errorCard.innerHTML = '<div class="response-header"><img class="response-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=error" alt=""><div class="response-question">' + esc(question) + '</div></div><p class="error-text">Error: ' + esc(err.message) + '</p>';
+    area.appendChild(errorCard);
+    errorCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  } finally {
+    // CRITICAL: Always reset state so next question works
+    isLoading = false;
+    askBtn.disabled = false;
+    askBtn.innerHTML = 'ASK';
+    askBtn.classList.remove('thinking');
+    console.log('[handleAsk] reset complete, ready for next question');
+  }
+}
+
+function renderResponse(data, question) {
+  const area = document.getElementById('responseArea');
+
+  if (!data || !data.success) {
+    area.innerHTML = '';
+    destroyCharts();
+    const card = document.createElement('div');
+    card.className = 'response-card';
+    card.innerHTML = '<div class="response-header"><img class="response-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=error" alt=""><div class="response-question">' + esc(question) + '</div></div><p class="error-text">' + esc((data && data.error) ? data.error : 'Unknown error') + '</p>';
+    area.appendChild(card);
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    return;
+  }
+
+  const card = document.createElement('div');
+  card.className = 'response-card';
+
+  let vizHtml = '';
+  const d = data.data;
+  const vtype = data.viz_type || '';
+  const chartId = 'chart-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+
+  if (vtype === 'number' && d && typeof d === 'object' && d.total !== undefined) {
+    vizHtml = '<div class="viz-number"><div class="value">' + fmtNum(d.total) + '</div><div class="label">' + (d.label || 'Total') + '</div></div>';
+  } else if (vtype === 'bar' && d && typeof d === 'object') {
+    const entries = Object.entries(d).sort((a, b) => b[1] - a[1]);
+    vizHtml = '<div class="viz-chart"><canvas id="' + chartId + '"></canvas></div>';
+    setTimeout(() => {
+      const ctx = document.getElementById(chartId);
+      if (!ctx) return;
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: entries.map(e => e[0]),
+          datasets: [{
+            data: entries.map(e => e[1]),
+            backgroundColor: isDark ? '#eeeeee' : '#1a1a1a',
+            borderRadius: 2,
+            barPercentage: 0.6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, border: { display: false }, ticks: { color: isDark ? '#888' : '#666', font: { size: 11, family: "'Inter', sans-serif" } } },
+            y: { grid: { color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)', drawBorder: false }, border: { display: false }, ticks: { color: isDark ? '#888' : '#666', font: { size: 11, family: "'Inter', sans-serif" } } }
+          }
+        }
+      });
+      chartInstances.push(chart);
+    }, 50);
+  } else if (vtype === 'table' && d && typeof d === 'object') {
+    const keys = Object.keys(d);
+    const isNested = keys.length > 0 && typeof d[keys[0]] === 'object' && d[keys[0]] !== null && !Array.isArray(d[keys[0]]);
+    if (isNested) {
+      const cols = [...new Set(Object.values(d).flatMap(v => Object.keys(v)))];
+      vizHtml = '<div class="viz-table-wrap"><table class="viz-table"><thead><tr><th></th>' + cols.map(c => '<th>' + esc(c) + '</th>').join('') + '</tr></thead><tbody>' +
+        keys.map(k => '<tr><td><strong>' + esc(k) + '</strong></td>' + cols.map(c => '<td>' + fmtNum(d[k][c]) + '</td>').join('') + '</tr>').join('') +
+        '</tbody></table></div>';
+    } else {
+      vizHtml = '<div class="viz-table-wrap"><table class="viz-table"><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody>' +
+        keys.map(k => '<tr><td>' + esc(k) + '</td><td>' + fmtNum(d[k]) + '</td></tr>').join('') +
+        '</tbody></table></div>';
+    }
+  } else if (vtype === 'line' && d && typeof d === 'object') {
+    const entries = Object.entries(d);
+    vizHtml = '<div class="viz-chart"><canvas id="' + chartId + '"></canvas></div>';
+    setTimeout(() => {
+      const ctx = document.getElementById(chartId);
+      if (!ctx) return;
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: entries.map(e => e[0]),
+          datasets: [{
+            data: entries.map(e => typeof e[1] === 'number' ? e[1] : 0),
+            borderColor: isDark ? '#eeeeee' : '#1a1a1a',
+            backgroundColor: isDark ? 'rgba(238,238,238,0.08)' : 'rgba(26,26,26,0.06)',
+            borderWidth: 2,
+            pointRadius: 4,
+            pointBackgroundColor: isDark ? '#eeeeee' : '#1a1a1a',
+            pointBorderColor: isDark ? '#0a0a0a' : '#ffffff',
+            pointBorderWidth: 2,
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, border: { display: false }, ticks: { color: isDark ? '#888' : '#666', font: { size: 11, family: "'Inter', sans-serif" } } },
+            y: { grid: { color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)', drawBorder: false }, border: { display: false }, ticks: { color: isDark ? '#888' : '#666', font: { size: 11, family: "'Inter', sans-serif" } } }
+          }
+        }
+      });
+      chartInstances.push(chart);
+    }, 50);
+  }
+
+  const modeText = data.mode === 'llm' ? 'LLM' : 'RULE';
+  const latency = data.latency_ms ? data.latency_ms.toFixed(2) + 'MS' : '';
+
+  const traceHtml = data.trace && data.trace.length
+    ? '<div class="trace-toggle" data-trace-toggle="1">View trace</div><div class="trace-box">' + esc(data.trace.join('\n')) + '</div>'
+    : '';
+
+  card.innerHTML =
+    '<div class="response-header"><img class="response-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=' + encodeURIComponent(question) + '" alt=""><div class="response-question">' + esc(question) + '</div></div>' +
+    '<div class="response-answer">' + wrapNumbersInText(esc(data.answer)) + '</div>' +
+    vizHtml +
+    '<div class="response-meta">' +
+      '<span class="badge-mode">' + modeText + '</span>' +
+      '<span class="latency">' + latency + '</span>' +
+    '</div>' +
+    traceHtml;
+
+  area.innerHTML = '';
+  area.appendChild(card);
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // Attach trace toggle
+  card.querySelectorAll('[data-trace-toggle]').forEach(el => {
+    el.addEventListener('click', function() {
+      this.nextElementSibling.classList.toggle('visible');
+    });
+  });
+}
+
+function fmtNum(n) {
+  if (typeof n !== 'number') return esc(String(n));
+  if (n >= 1000 || n <= -1000) return n.toLocaleString('en-US', { maximumFractionDigits: 2 });
+  if (Number.isInteger(n)) return String(n);
+  return n.toFixed(2);
+}
+
+function wrapNumbersInText(text) {
+  // Wrap numbers (including currency like $12,345.67) in <span class="num">
+  return text.replace(/(\$?[\d,]+\.?\d*)/g, '<span class="num">$1</span>');
+}
+
+function esc(s) {
+  if (s === null || s === undefined) return '';
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// Enter key to submit
+document.getElementById('questionInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    handleAsk();
+  }
+});
+</script>
+</body>
+</html>
